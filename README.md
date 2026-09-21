@@ -2,6 +2,8 @@
 
 Codex skill for configuring a local OBS Studio MCP server and safely creating, validating, and recovering dual-screen OBS scenes.
 
+![Codex for OBS Studio Setup via MCP Server](assets/codex-obs-thumbnail.png)
+
 ## Contents
 
 - `SKILL.md` — routing and operating contract
