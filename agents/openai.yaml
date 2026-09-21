@@ -1,0 +1,4 @@
+interface:
+  display_name: "OBS MCP and Dual-Screen Setup"
+  short_description: "Set up OBS MCP and safe dual-screen scenes"
+  default_prompt: "Use $obs-skill to configure OBS MCP or build and verify a dual-screen recording scene."
