@@ -1,0 +1,53 @@
+#!/home/prime/.local/share/uv/tools/obs-mcp/bin/python
+"""Open the existing PS5 source on the external display."""
+
+import subprocess
+import tomllib
+from pathlib import Path
+
+import obsws_python
+
+
+def open_projector():
+    card = Path("/dev/v4l/by-id/usb-MACROSILICON_2109-video-index0")
+    if not card.exists():
+        raise RuntimeError("Connect the PS5 USB capture card first.")
+
+    with (Path.home() / ".codex/config.toml").open("rb") as config:
+        settings = tomllib.load(config)["mcp_servers"]["obs"].get("env", {})
+    try:
+        client = obsws_python.ReqClient(
+            host=settings.get("OBS_HOST", "127.0.0.1"),
+            port=int(settings.get("OBS_PORT", "4455")),
+            password=settings.get("OBS_PASSWORD", ""),
+            timeout=3,
+        )
+    except Exception:
+        raise RuntimeError("Open OBS and select the PS5 scene collection.") from None
+
+    try:
+        monitors = client.send("GetMonitorList", raw=True)["monitors"]
+        external = next(
+            (item for item in monitors if item["monitorName"].split("(")[0] == "HDMI-1"),
+            None,
+        )
+        if external is None:
+            raise RuntimeError("Connect the external HDMI monitor first.")
+        inputs = client.send("GetInputList", raw=True)["inputs"]
+        if not any(item["inputName"] == "PS5 HDMI" for item in inputs):
+            raise RuntimeError("Select the PS5 scene collection in OBS first.")
+        client.send("OpenSourceProjector", {
+            "sourceName": "PS5 HDMI",
+            "monitorIndex": external["monitorIndex"],
+        })
+    finally:
+        client.disconnect()
+
+
+if __name__ == "__main__":
+    try:
+        open_projector()
+    except Exception as error:
+        message = str(error) if isinstance(error, RuntimeError) else "Could not open the PS5 preview in OBS."
+        subprocess.run(["notify-send", "PS5 Screen", message], check=False)
+        raise SystemExit(1)

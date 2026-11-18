@@ -1,0 +1,7 @@
+{
+  "uuid": "ps5-screen@local",
+  "name": "PS5 Screen",
+  "description": "Switch the external display between the OBS PS5 projector and Ubuntu",
+  "shell-version": ["50"],
+  "version": 1
+}

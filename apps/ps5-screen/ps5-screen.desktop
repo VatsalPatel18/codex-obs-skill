@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=PS5 Screen
+Comment=Show the PS5 capture on the external monitor
+Exec=/home/prime/.local/bin/ps5-screen
+Icon=input-gaming
+Terminal=false
+Categories=AudioVideo;
