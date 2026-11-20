@@ -1,0 +1,13 @@
+{
+  "name": "ps5-obs-setup",
+  "version": "0.1.0",
+  "description": "Set up and check PS5 capture in OBS Studio on Windows and Linux",
+  "type": "module",
+  "bin": {
+    "ps5-obs-setup": "./setup.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "files": ["setup.mjs", "obs.mjs", "README.md", "WINDOWS.md"]
+}
